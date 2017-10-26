@@ -1,0 +1,31 @@
+
+
+
+<div class="navbar navbar-default" *ngIf="!serverError">
+
+    <div id="upper-menu" [ngClass]="{'showExpandedMenu': menuOpened }">
+
+        <div class="container" >
+            <div  class="text-right">&nbsp;</div>
+
+            <div class="row">
+
+            </div>
+
+
+            <div class="row">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div style="display:inline-block;padding-top:16px;" class="pull-left">
+           <span tabindex="1" class="glyphicon glyphicon-menu-hamburger"></span>
+        </div>
+
+        <a [routerLink]="['/home']" class="navbar-brand">
+            <img [src]="logo" width="40">
+        </a>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+.idea
+.gradle
+
+*/build
+*/dist
+*/typings
+*/node_modules
+*/npm-debug.log
+*/coverage

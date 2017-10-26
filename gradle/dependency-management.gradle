@@ -1,0 +1,52 @@
+// groupId
+ext.groupDependencyVersions = [
+]
+
+// groupId:artifactId
+ext.dependencyVersions = [
+]
+
+
+// remapped artifacts from non-standard groupId:artificatId to their standard form
+ext.remappedArtifacts = [
+
+]
+
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            // fail eagerly on version conflict (includes transitive dependencies)
+            failOnVersionConflict()
+
+            eachDependency { DependencyResolveDetails details ->
+                def requested = details.requested.group + ":" + details.requested.name
+
+                // handle renamed artifacts into new groups
+                // remap(details, requested)
+
+                // force "framework" dependencies to conform with a single version
+                def groupVersion = groupDependencyVersions[details.requested.group]
+                def jarVersion = dependencyVersions[requested]
+                if (groupVersion != null && jarVersion == null) {
+                    details.useVersion groupVersion
+                }
+                else if (jarVersion != null) {
+                    details.useVersion jarVersion
+                }
+            }
+        }
+    }
+}
+
+def remap(details, requested) {
+    def remapped = remappedArtifacts[requested]
+    if (remapped != null) {
+        def version = dependencyVersions[remapped]
+
+        if (version == null) {
+            throw new GradleException("Invalid remapped artifact version $remapped specified")
+        }
+
+        details.useTarget "$remapped:$version"
+    }
+}
